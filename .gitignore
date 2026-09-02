@@ -1,0 +1,21 @@
+# Maven
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Logs e relatórios gerados
+logs/
+allure-results/
+allure-report/
+*.log
+
+# SO
+.DS_Store
+Thumbs.db
