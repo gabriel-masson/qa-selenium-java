@@ -19,7 +19,7 @@ public class HomePage extends BasePage {
     }
 
     public boolean isUserLoggedIn(String username) {
-        return isVisible(By.xpath("//a[contains(text(),'Logged in as " + username + "')]"));
+        return isVisible(By.xpath("//a[contains(.,'Logged in as " + username + "')]"));
     }
 
     public void logout() {
