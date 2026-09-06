@@ -66,7 +66,7 @@ class UserApiTest {
         accountData.put("company", "Automation Exercise Study");
         accountData.put("address1", "Rua dos Testes, 123");
         accountData.put("address2", "");
-        accountData.put("country", "Brazil");
+        accountData.put("country", "Canada");
         accountData.put("zipcode", "55636000");
         accountData.put("state", "Pernambuco");
         accountData.put("city", "xxxxxx");

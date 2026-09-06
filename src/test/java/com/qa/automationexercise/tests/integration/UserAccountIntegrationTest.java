@@ -63,7 +63,7 @@ class UserAccountIntegrationTest extends BaseUiTest {
         data.put("company", "Automation Exercise Study");
         data.put("address1", "Rua dos Testes, 123");
         data.put("address2", "");
-        data.put("country", "Brazil");
+        data.put("country", "Canada");
         data.put("zipcode", "55636000");
         data.put("state", "xxxx");
         data.put("city", "xxxxxx");

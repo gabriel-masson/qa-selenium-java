@@ -2,6 +2,8 @@ package com.qa.automationexercise.pages;
 
 import com.qa.automationexercise.config.ConfigManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -40,7 +42,19 @@ public abstract class BasePage {
     }
 
     protected void click(By locator) {
-        waitForClickable(locator).click();
+        WebElement element = waitForClickable(locator);
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            // Alguns elementos podem ser encobertos por overlays de terceiros
+            // (ex: anúncios "vignette" do Google Ads no automationexercise.com),
+            // que interceptam o clique nativo do navegador antes que ele
+            // alcance o elemento certo. Como fallback, disparamos o clique
+            // via JavaScript diretamente no elemento — isso não depende do
+            // "hit-testing" visual do navegador, então ignora o que estiver
+            // sobreposto na tela.
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
     }
 
     protected void type(By locator, String text) {

@@ -54,7 +54,7 @@ mvn test -Pprod
 - [x] Etapa 1 — Test Plan
 - [x] Etapa 2 — Setup do projeto
 - [x] Etapa 3 — Page Object Model
-- [ ] Etapa 4 — Testes de Integração e API
+- [x] Etapa 4 — Testes de Integração e API
 - [ ] Etapa 5 — Testes E2E
 - [ ] Etapa 6 — Gestão de ambientes
 - [ ] Etapa 7 — Tratamento de Flaky Tests

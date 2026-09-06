@@ -9,9 +9,8 @@ import org.openqa.selenium.WebDriver;
  *
  * Optamos por um único Page Object para essa URL (em vez de duas classes),
  * já que ambos os formulários compartilham o mesmo ciclo de vida de página.
- * A etapa de conclusão do cadastro (após o clique em "Signup") acontece em
- * uma página própria — o Page Object dela (AccountInfoPage) será criado na
- * Etapa 5, junto com a implementação do teste E2E de cadastro completo.
+ * A etapa de conclusão do cadastro acontece em AccountInfoPage, retornada
+ * por startSignup().
  */
 public class LoginPage extends BasePage {
 
@@ -22,7 +21,7 @@ public class LoginPage extends BasePage {
     private final By loginErrorMessage =
             By.xpath("//p[contains(text(),'Your email or password is incorrect!')]");
 
-    // --- Formulário de cadastro (RF-UI-001 - implementação completa na Etapa 5) ---
+    // --- Formulário de cadastro (RF-UI-001) ---
     private final By signupNameInput = By.cssSelector("input[data-qa='signup-name']");
     private final By signupEmailInput = By.cssSelector("input[data-qa='signup-email']");
     private final By signupButton = By.cssSelector("button[data-qa='signup-button']");
@@ -31,6 +30,14 @@ public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver) {
         super(driver);
+    }
+
+    /** Preenche nome e e-mail e inicia o cadastro, navegando para AccountInfoPage. */
+    public AccountInfoPage startSignup(String name, String email) {
+        type(signupNameInput, name);
+        type(signupEmailInput, email);
+        click(signupButton);
+        return new AccountInfoPage(driver);
     }
 
     /** Login com sucesso: navega para a Home autenticada. */
