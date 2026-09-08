@@ -7,6 +7,7 @@ import com.qa.automationexercise.pages.LoginPage;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Integração - Conta criada via API deve logar na UI")
+@Tag("regression")
 class UserAccountIntegrationTest extends BaseUiTest {
 
     private static final String PASSWORD = "Senha@123";

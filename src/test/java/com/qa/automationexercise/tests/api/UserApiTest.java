@@ -4,6 +4,7 @@ import com.qa.automationexercise.api.UserApiClient;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -31,6 +32,7 @@ class UserApiTest {
     }
 
     @Test
+    @Tag("regression")
     @DisplayName("RF-API-006: login com credenciais inválidas deve retornar 'User not found!'")
     void verifyLogin_withInvalidCredentials_shouldReturnUserNotFound() {
         Response response = userApiClient.verifyLogin("usuario.inexistente@teste.com", "senhaErrada123");
@@ -40,6 +42,7 @@ class UserApiTest {
     }
 
     @Test
+     @Tag("regression")
     @DisplayName("RF-API-007: login sem o parâmetro email deve retornar 400")
     void verifyLogin_withoutEmail_shouldReturnBadRequest() {
         Response response = userApiClient.verifyLoginWithoutEmail(PASSWORD);
@@ -48,6 +51,7 @@ class UserApiTest {
     }
 
     @Test
+    @Tag("smoke")
     @DisplayName("RF-API-008 + RF-API-005: criar conta deve permitir login imediato com as mesmas credenciais")
     void createAccount_thenVerifyLogin_shouldSucceed() {
         String uniqueEmail = "qa.portfolio." + System.currentTimeMillis() + "@teste.com";

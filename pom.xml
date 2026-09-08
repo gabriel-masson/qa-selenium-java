@@ -31,6 +31,8 @@
 
         <!-- Ambiente padrão caso nenhum profile seja explicitamente ativado -->
         <env>dev</env>
+        <!-- Filtro de tags padrão (fallback) - cada profile sobrescreve este valor -->
+        <test.groups></test.groups>
     </properties>
 
     <dependencies>
@@ -106,6 +108,9 @@
                     <systemPropertyVariables>
                         <env>${env}</env>
                     </systemPropertyVariables>
+                    <!-- Filtra quais testes rodam, com base na tag definida pelo profile ativo.
+                         Vazio ("") significa "sem filtro" - roda tudo. -->
+                    <groups>${test.groups}</groups>
                     <!-- Convenção de nomes que o Surefire reconhece por padrão:
                          *Test.java, *Tests.java, Test*.java -->
                 </configuration>
@@ -117,8 +122,14 @@
         Profiles de ambiente.
         Ativados via: mvn test -Pdev | -Pstaging | -Pprod
         A propriedade "env" é lida em tempo de execução pela classe
-        com.qa.automationexercise.config.ConfigManager (Etapa 6),
-        que carrega o arquivo <env>.properties correspondente.
+        com.qa.automationexercise.config.ConfigManager, que carrega o
+        arquivo <env>.properties correspondente.
+
+        A propriedade "test.groups" implementa a estratégia de execução por
+        gatilho definida no Test Plan (Etapa 1, seção 8):
+          - dev (push):     só testes "smoke" -> feedback rápido
+          - staging (PR):   sem filtro -> suíte completa (smoke + regression)
+          - prod (merge):   só testes "smoke" -> validação crítica pós-deploy
     -->
     <profiles>
         <profile>
@@ -128,18 +139,21 @@
             </activation>
             <properties>
                 <env>dev</env>
+                <test.groups>smoke</test.groups>
             </properties>
         </profile>
         <profile>
             <id>staging</id>
             <properties>
                 <env>staging</env>
+                <test.groups></test.groups>
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
                 <env>prod</env>
+                <test.groups>smoke</test.groups>
             </properties>
         </profile>
     </profiles>

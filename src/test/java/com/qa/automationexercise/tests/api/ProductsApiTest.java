@@ -3,6 +3,7 @@ package com.qa.automationexercise.tests.api;
 import com.qa.automationexercise.api.ProductsApiClient;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -16,6 +17,7 @@ class ProductsApiTest {
     private final ProductsApiClient productsApiClient = new ProductsApiClient();
 
     @Test
+    @Tag("smoke")
     @DisplayName("RF-API-001: GET /productsList deve retornar 200 e uma lista de produtos")
     void getProductsList_shouldReturnProductsSuccessfully() {
         Response response = productsApiClient.getProductsList();
@@ -32,6 +34,7 @@ class ProductsApiTest {
     }
 
     @Test
+    @Tag("regression")
     @DisplayName("RF-API-002: POST /productsList deve indicar método não suportado (405)")
     void postToProductsList_shouldReturnMethodNotSupported() {
         Response response = productsApiClient.postToProductsList();
