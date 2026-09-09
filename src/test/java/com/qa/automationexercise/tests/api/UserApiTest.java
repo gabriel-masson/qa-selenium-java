@@ -1,6 +1,11 @@
 package com.qa.automationexercise.tests.api;
 
 import com.qa.automationexercise.api.UserApiClient;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +17,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Feature("API de Usuário")
 @DisplayName("API - Usuário (login, criação e exclusão de conta)")
 class UserApiTest {
 
@@ -33,6 +39,10 @@ class UserApiTest {
 
     @Test
     @Tag("regression")
+    @Story("Login")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Garante que a API rejeita corretamente credenciais que não existem na base - "
+            + "relevante para a segurança do processo de autenticação, mas não bloqueia o uso do sistema.")
     @DisplayName("RF-API-006: login com credenciais inválidas deve retornar 'User not found!'")
     void verifyLogin_withInvalidCredentials_shouldReturnUserNotFound() {
         Response response = userApiClient.verifyLogin("usuario.inexistente@teste.com", "senhaErrada123");
@@ -42,7 +52,11 @@ class UserApiTest {
     }
 
     @Test
-     @Tag("regression")
+    @Tag("regression")
+    @Story("Login")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Valida o tratamento de parâmetro obrigatório ausente na requisição de login. "
+            + "Caso de borda de validação de entrada.")
     @DisplayName("RF-API-007: login sem o parâmetro email deve retornar 400")
     void verifyLogin_withoutEmail_shouldReturnBadRequest() {
         Response response = userApiClient.verifyLoginWithoutEmail(PASSWORD);
@@ -52,6 +66,11 @@ class UserApiTest {
 
     @Test
     @Tag("smoke")
+    @Story("Criação de Conta")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Fluxo central de aquisição de usuário: cria uma conta via API e confirma que "
+            + "o login funciona imediatamente com as mesmas credenciais. Se isso quebrar, "
+            + "novos usuários não conseguem se cadastrar de verdade.")
     @DisplayName("RF-API-008 + RF-API-005: criar conta deve permitir login imediato com as mesmas credenciais")
     void createAccount_thenVerifyLogin_shouldSucceed() {
         String uniqueEmail = "qa.portfolio." + System.currentTimeMillis() + "@teste.com";
@@ -70,11 +89,11 @@ class UserApiTest {
         accountData.put("company", "Automation Exercise Study");
         accountData.put("address1", "Rua dos Testes, 123");
         accountData.put("address2", "");
-        accountData.put("country", "Canada");
+        accountData.put("country", "Brazil");
         accountData.put("zipcode", "55636000");
         accountData.put("state", "Pernambuco");
-        accountData.put("city", "xxxxxx");
-        accountData.put("mobile_number", "99999999999");
+        accountData.put("city", "Gravata");
+        accountData.put("mobile_number", "81999999999");
 
         Response createResponse = userApiClient.createAccount(accountData);
         assertEquals(201, createResponse.jsonPath().getInt("responseCode"), "A conta deveria ter sido criada");

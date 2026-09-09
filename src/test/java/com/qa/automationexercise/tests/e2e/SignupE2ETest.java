@@ -10,9 +10,17 @@ import com.qa.automationexercise.pages.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+@Tag("regression")
+@Feature("Cadastro de Usuário")
 @DisplayName("E2E - Cadastro completo de usuário")
 class SignupE2ETest extends BaseUiTest {
 
@@ -31,6 +39,10 @@ class SignupE2ETest extends BaseUiTest {
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Percorre o fluxo real de cadastro de um novo usuário pela interface, do "
+            + "início ao fim: preenchimento dos formulários, confirmação de conta criada, e "
+            + "login automático. Este é o principal caminho de aquisição de novos usuários do site.")
     @DisplayName("RF-UI-001: usuário deve conseguir se cadastrar via UI, do início ao fim")
     void shouldSignUpSuccessfullyThroughUi() {
         String uniqueEmail = "qa.portfolio." + System.currentTimeMillis() + "@teste.com";

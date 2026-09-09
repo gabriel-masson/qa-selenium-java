@@ -55,9 +55,9 @@ mvn test -Pprod
 - [x] Etapa 2 — Setup do projeto
 - [x] Etapa 3 — Page Object Model
 - [x] Etapa 4 — Testes de Integração e API
-- [ ] Etapa 5 — Testes E2E
-- [ ] Etapa 6 — Gestão de ambientes
-- [ ] Etapa 7 — Tratamento de Flaky Tests
+- [x] Etapa 5 — Testes E2E
+- [x] Etapa 6 — Gestão de ambientes
+- [x] Etapa 7 — Tratamento de Flaky Tests
 - [ ] Etapa 8 — Relatórios (Allure)
 - [ ] Etapa 9 — Documentação de Bugs
 - [ ] Etapa 10 — Pipeline CI/CD (GitHub Actions)

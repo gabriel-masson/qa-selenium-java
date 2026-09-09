@@ -1,6 +1,10 @@
 package com.qa.automationexercise.tests.api;
 
 import com.qa.automationexercise.api.ProductsApiClient;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -11,6 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+@Feature("API de Produtos")
 @DisplayName("API - Produtos (/productsList)")
 class ProductsApiTest {
 
@@ -18,6 +23,9 @@ class ProductsApiTest {
 
     @Test
     @Tag("smoke")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Confirma que o endpoint principal de listagem de produtos está no ar e "
+            + "retornando dados válidos - se isso quebrar, o catálogo inteiro do site é afetado.")
     @DisplayName("RF-API-001: GET /productsList deve retornar 200 e uma lista de produtos")
     void getProductsList_shouldReturnProductsSuccessfully() {
         Response response = productsApiClient.getProductsList();
@@ -28,13 +36,14 @@ class ProductsApiTest {
         assertEquals(200, responseCode, "responseCode do corpo da API deveria ser 200");
 
         List<Object> products = response.jsonPath().getList("products");
-        
-        // System.out.println("Produtos retornados: " + products);
         assertFalse(products.isEmpty(), "A lista de produtos não deveria vir vazia");
     }
 
     @Test
     @Tag("regression")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Valida o comportamento da API quando um método HTTP não suportado é usado "
+            + "no endpoint de produtos. Caso de borda, sem impacto direto na experiência do usuário.")
     @DisplayName("RF-API-002: POST /productsList deve indicar método não suportado (405)")
     void postToProductsList_shouldReturnMethodNotSupported() {
         Response response = productsApiClient.postToProductsList();

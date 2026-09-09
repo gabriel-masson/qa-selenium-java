@@ -28,11 +28,16 @@
         <jackson.version>2.17.1</jackson.version>
         <slf4j.version>2.0.13</slf4j.version>
         <surefire.version>3.2.5</surefire.version>
+        <allure.version>2.29.0</allure.version>
+        <allure.maven.version>2.12.0</allure.maven.version>
 
         <!-- Ambiente padrão caso nenhum profile seja explicitamente ativado -->
         <env>dev</env>
         <!-- Filtro de tags padrão (fallback) - cada profile sobrescreve este valor -->
         <test.groups></test.groups>
+        <!-- Tags excluídas por padrão em qualquer execução normal. "flaky" fica
+             de fora do pipeline principal por padrão - ver profile "quarantine". -->
+        <test.excludedGroups>flaky</test.excludedGroups>
     </properties>
 
     <dependencies>
@@ -83,6 +88,14 @@
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+
+        <!-- Allure: gera relatório HTML interativo a partir da execução dos testes -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -111,9 +124,28 @@
                     <!-- Filtra quais testes rodam, com base na tag definida pelo profile ativo.
                          Vazio ("") significa "sem filtro" - roda tudo. -->
                     <groups>${test.groups}</groups>
+                    <!-- Testes marcados como "flaky" (quarentena) ficam de fora da
+                         execução normal do pipeline, por padrão. -->
+                    <excludedGroups>${test.excludedGroups}</excludedGroups>
+                    <!-- Rede de segurança contra instabilidade genuína de ambiente
+                         (ex: rede lenta, timing de terceiros). Um teste que falhar
+                         é executado novamente até 2 vezes antes de ser marcado como
+                         falho de verdade. NÃO substitui corrigir bugs reais de
+                         locator/lógica - serve só para o que está genuinamente
+                         fora do nosso controle. -->
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
                     <!-- Convenção de nomes que o Surefire reconhece por padrão:
                          *Test.java, *Tests.java, Test*.java -->
                 </configuration>
+            </plugin>
+
+            <!-- Gera o relatório HTML interativo do Allure a partir dos resultados
+                 de execução (target/allure-results). Uso: mvn allure:report ou
+                 mvn allure:serve (abre automaticamente no navegador). -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure.maven.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -154,6 +186,22 @@
             <properties>
                 <env>prod</env>
                 <test.groups>smoke</test.groups>
+            </properties>
+        </profile>
+
+        <!--
+            Profile de quarentena: roda APENAS os testes marcados @Tag("flaky"),
+            de forma isolada. Usado para monitorar a saúde de testes conhecidamente
+            instáveis (ex: causados por interferência de terceiros que não temos
+            como eliminar 100%) sem que eles bloqueiem o pipeline principal.
+            Uso: mvn test -Pquarantine
+        -->
+        <profile>
+            <id>quarantine</id>
+            <properties>
+                <env>staging</env>
+                <test.groups>flaky</test.groups>
+                <test.excludedGroups></test.excludedGroups>
             </properties>
         </profile>
     </profiles>

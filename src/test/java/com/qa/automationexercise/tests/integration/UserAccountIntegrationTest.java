@@ -4,6 +4,10 @@ import com.qa.automationexercise.api.UserApiClient;
 import com.qa.automationexercise.base.BaseUiTest;
 import com.qa.automationexercise.pages.HomePage;
 import com.qa.automationexercise.pages.LoginPage;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +20,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Integração - Conta criada via API deve logar na UI")
 @Tag("regression")
+@Feature("Integração - Conta e Login")
+@DisplayName("Integração - Conta criada via API deve logar na UI")
 class UserAccountIntegrationTest extends BaseUiTest {
 
     private static final String PASSWORD = "Senha@123";
@@ -35,6 +40,9 @@ class UserAccountIntegrationTest extends BaseUiTest {
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Confirma que a integração entre a camada de API e a camada de UI funciona: "
+            + "uma conta criada via API consegue autenticar normalmente pela interface do usuário.")
     @DisplayName("RF-INT-001: conta criada via API deve permitir login com sucesso na UI")
     void accountCreatedViaApi_shouldLoginSuccessfullyOnUi() {
         String uniqueEmail = "qa.portfolio." + System.currentTimeMillis() + "@teste.com";
@@ -65,11 +73,11 @@ class UserAccountIntegrationTest extends BaseUiTest {
         data.put("company", "Automation Exercise Study");
         data.put("address1", "Rua dos Testes, 123");
         data.put("address2", "");
-        data.put("country", "Canada");
+        data.put("country", "Brazil");
         data.put("zipcode", "55636000");
-        data.put("state", "xxxx");
-        data.put("city", "xxxxxx");
-        data.put("mobile_number", "11999999999");
+        data.put("state", "Pernambuco");
+        data.put("city", "Gravata");
+        data.put("mobile_number", "81999999999");
         return data;
     }
 }
