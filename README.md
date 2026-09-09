@@ -58,6 +58,6 @@ mvn test -Pprod
 - [x] Etapa 5 — Testes E2E
 - [x] Etapa 6 — Gestão de ambientes
 - [x] Etapa 7 — Tratamento de Flaky Tests
-- [ ] Etapa 8 — Relatórios (Allure)
-- [ ] Etapa 9 — Documentação de Bugs
+- [X] Etapa 8 — Relatórios (Allure)
+- [x] Etapa 9 — Documentação de Bugs
 - [ ] Etapa 10 — Pipeline CI/CD (GitHub Actions)

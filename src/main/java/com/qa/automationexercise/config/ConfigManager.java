@@ -10,7 +10,7 @@ import java.util.Properties;
  * pelo Maven Profile ativo (veja pom.xml -> <profiles>).
  *
  * Uso: mvn test -Pdev | -Pstaging | -Pprod
- * Fallback: se nenhum profile for informado, assume "dev"..
+ * Fallback: se nenhum profile for informado, assume "dev".
  */
 public final class ConfigManager {
 
@@ -52,6 +52,16 @@ public final class ConfigManager {
     }
 
     public boolean isHeadless() {
+        // Permite forçar headless via linha de comando (ex: -Dheadless=true),
+        // sem precisar alterar o .properties do ambiente. Essencial para CI:
+        // runners do GitHub Actions não têm display, então mesmo o profile
+        // "dev" (headless=false, pensado para debug local) precisa rodar
+        // headless quando executado lá. Se a system property não for
+        // informada, cai no valor padrão do .properties do ambiente.
+        String override = System.getProperty("headless");
+        if (override != null) {
+            return Boolean.parseBoolean(override);
+        }
         return Boolean.parseBoolean(properties.getProperty("headless", "false"));
     }
 
