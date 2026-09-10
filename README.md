@@ -60,4 +60,4 @@ mvn test -Pprod
 - [x] Etapa 7 — Tratamento de Flaky Tests
 - [X] Etapa 8 — Relatórios (Allure)
 - [x] Etapa 9 — Documentação de Bugs
-- [ ] Etapa 10 — Pipeline CI/CD (GitHub Actions)
+- [X] Etapa 10 — Pipeline CI/CD (GitHub Actions)
