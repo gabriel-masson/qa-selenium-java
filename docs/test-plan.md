@@ -64,7 +64,7 @@ Garantir, por meio de testes automatizados de **API**, **integração** e **pont
 
 | Ambiente | Propósito | URL/Config |
 |---|---|---|
-| **dev** | Execução a cada push/PR — feedback rápido para o desenvolvedor | Config apontando para saucedemo.com (simulado como "dev" via profile Maven) |
+| **dev** | Execução a cada push/PR — feedback rápido para o desenvolvedor | Config apontando para  automationexercise.com (simulado como "dev" via profile Maven) |
 | **staging** | Execução completa antes de merge na branch principal — suíte completa + regressão | Config equivalente, profile `staging` |
 | **produção** | Execução pós-merge/deploy — smoke tests críticos (API + E2E essenciais) | Config equivalente, profile `prod` |
 
